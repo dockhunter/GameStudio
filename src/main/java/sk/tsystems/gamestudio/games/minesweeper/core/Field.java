@@ -124,7 +124,7 @@ public class Field {
 	 * @return true if game is solved, false otherwise
 	 */
 	public boolean isSolved() {
-		if ((rowCount * columnCount) - getNumberOf(Tile.State.OPEN) == getMineCount()) {
+		if ((rowCount * columnCount) - getNumberOf(Tile.State.OPEN) == getMineCount() && getNumberOf(Tile.State.CLOSED) == getMineCount()) {
 			return true;
 		}
 		return false;

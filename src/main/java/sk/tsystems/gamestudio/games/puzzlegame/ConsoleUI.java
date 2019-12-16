@@ -12,12 +12,12 @@ public class ConsoleUI implements UserInterface {
 	/** Playing field. */
 	private Field field;
 
-	private int count = 0;
-
 	/** Input reader. */
 	private BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 	ScoreService scoreService = new ScoreServicesJDBC();
 	String name;
+	
+	int x = 0; 
 
 	/**
 	 * Reads line of text from the reader.
@@ -53,8 +53,8 @@ public class ConsoleUI implements UserInterface {
 				System.out.println("Game Over.");
 			} else {
 				update();
-				System.out.println("YOU WON!\n" + "Your number of moves (score):" + count);
-				scoreService.addScore(new Score(name, "puzzlegame", count));
+				System.out.println("YOU WON!\n" + "Your number of moves (score):" + field.getScore());
+				scoreService.addScore(new Score(name, "puzzlegame", field.getScore()));
 				printHighScores();
 			}
 		System.out.println("\n\n\n\n");
@@ -95,7 +95,7 @@ public class ConsoleUI implements UserInterface {
 		System.out.println("INSERT NUMBER TO MOVE A TILE" + "\n<X> EXIT" + "\n---------------");
 		try {
 			handleInput(readLine());
-			count++;
+
 		} catch (Exception ex) {
 			System.err.println("Wrong format. " + ex.getMessage());
 		}
@@ -111,13 +111,10 @@ public class ConsoleUI implements UserInterface {
 		if (input.equalsIgnoreCase("X")) {
 			field.setState(GameState.FAILED);
 		} else if (Integer.parseInt(input) < (field.getColumnCount() * field.getRowCount())) {
+			field.setScore(++x);
 			field.moveTile(Integer.parseInt(input));
 		} else
 			System.err.println("Wrong input");
-	}
-
-	public int getCount() {
-		return count;
 	}
 
 }

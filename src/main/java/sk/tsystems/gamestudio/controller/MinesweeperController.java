@@ -35,7 +35,7 @@ public class MinesweeperController {
 	@RequestMapping("/minesweeper/open")
 	public String open(int row, int column) {
 		field.openTile(row, column);
-		if(field.getState().equals(GameState.SOLVED) || field.isSolved() && mainContoller.isLogged()) {
+		if(field.isSolved() && mainContoller.isLogged()) {
 			scoreService.addScore(new Score(mainContoller.getLoggedPlayer().getName(), "minesweeper", 10));
 		}
 		return "minesweeper";
@@ -132,7 +132,7 @@ public class MinesweeperController {
 	}
 
 	public boolean isSolved() {
-		if (!(field.getState().equals(GameState.SOLVED) || field.isSolved()))
+		if (!(field.getState().equals(GameState.SOLVED)))
 			return false;
 
 		return true;

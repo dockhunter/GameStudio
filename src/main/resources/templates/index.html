@@ -6,26 +6,34 @@
 <link rel="stylesheet" href="/css/style.css">   
 </head>
 <body>
-	<div class="title">
-		<p>Welcome to</p>
-		<h1>GameStudio</h1>
+	<div class="contanier">
+		<div class="title">
+			<h1>GameStudio</h1>
 	
-		Our favorite games: <br/>
-		<a href="/puzzle">Puzzle</a><br/>
-		<a href="/minesweeper">Minsweeper</a><br/>
-		<br/>
+			<p class="center">Our favorite games:&nbsp;&nbsp;
+				<a href="/puzzle">Puzzle</a>
+				/
+				<a href="/minesweeper">Minsweeper</a>
+				/
+				<a>Guess The Number</a>
+				/
+				<a>Torpedo</a>
+			</p>
+			<br/>
 	
-		<div th:if="${not @mainController.logged}">
-		Please login<br/>
-			<form action="/login">
-				<p>Login:</p> <input type="text" name="name"/><br/>
-				<p>Password: </p> <input type="password" name="password"/><br/>
-				<input type="submit" value="login"/>
-			</form>
-		</div>
-		<div th:if="${@mainController.logged}">
-		You are logged as <span th:text="${@mainController.loggedPlayer.name}"/>
-		<a href="/logout">Logout</a><br/>
+			<div th:if="${not @mainController.logged}" class="login">
+			<h3 class="center">LOGIN</h3>
+				<form action="/login">
+					<div class="input"><p>Name:</p> <input type="text" name="name" class="input_field"/></div>
+					<div class="input"><p>Password: </p> <input type="password" name="password" class="input_field"/></div>
+					<input type="submit" value="login" class="login_button"/>
+				</form>
+				<p>*Only scores of logged player will be saved and displayed on score tables.</p>
+			</div>
+			<div th:if="${@mainController.logged}" class="login">
+				You are logged as <span th:text="${@mainController.loggedPlayer.name}"/>
+				<a href="/logout">Logout</a><br/>
+			</div>
 		</div>
 	</div>
 </body>

@@ -28,7 +28,7 @@ public class PuzzleController {
 
 	@RequestMapping
 	public String index() {
-		field = new Field(4, 4);
+		field = new Field(2, 2);
 		return "puzzle";
 	}
 
@@ -36,7 +36,7 @@ public class PuzzleController {
 	public String move(int tile) {
 		field.moveTile(tile);
 		if(field.isSolved() && mainContoller.isLogged()) {
-			scoreService.addScore(new Score(mainContoller.getLoggedPlayer().getName(), "puzzle", 10));
+			scoreService.addScore(new Score(mainContoller.getLoggedPlayer().getName(), "puzzle", field.getScore()));
 		}
 		return "puzzle";
 	}

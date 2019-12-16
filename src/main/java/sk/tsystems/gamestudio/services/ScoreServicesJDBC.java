@@ -20,9 +20,9 @@ public class ScoreServicesJDBC implements ScoreService {
 	private static final String LOGIN = "postgres";
 	private static final String PASSWORD = "jahodka";
 
-	private static final String INSERT = "INSERT INTO  score (username, game, value) VALUES (?, ?, ?)";
-	private static final String SELECTFORMINESWEEPER = "SELECT username, game, value FROM score WHERE game = ? ORDER BY value desc limit 10";
-	private static final String SELECTFORPUZZLEGAME = "SELECT username, game, value FROM score WHERE game = ? ORDER BY value asc limit 10";
+	private static final String INSERT = "INSERT INTO  highscore (username, game, value) VALUES (?, ?, ?)";
+	private static final String SELECTFORMINESWEEPER = "SELECT username, game, value FROM highscore WHERE game = ? ORDER BY value desc limit 10";
+	private static final String SELECTFORPUZZLEGAME = "SELECT username, game, value FROM highscore WHERE game = ? ORDER BY value asc limit 10";
 
 	
 	@Override

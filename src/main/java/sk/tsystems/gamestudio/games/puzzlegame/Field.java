@@ -19,6 +19,9 @@ public class Field {
 	 * Column count. Columns are indexed from 0 to (columnCount - 1).
 	 */
 	public final int columnCount;
+	
+	private int score;
+
 
 	/**
 	 * Mine count.
@@ -60,7 +63,15 @@ public class Field {
 	public Tile getTile(int row, int column) {
 		return tiles[row][column];
 	}
-
+	
+	public int getScore() {
+		return score;
+	}
+	
+	public void setScore(int score) {
+		this.score = score;
+	}
+	
 	private void generateFiled() {
 		int total = (columnCount * rowCount);
 
@@ -155,10 +166,10 @@ public class Field {
 				if (count < total && tile.getValue() != count)
 						return false;
 					count++;
-
 			}
 		}
 	    return true;
 	}
+
 
 }
