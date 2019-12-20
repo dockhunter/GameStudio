@@ -28,7 +28,7 @@ public class PuzzleController {
 
 	@RequestMapping
 	public String index() {
-		field = new Field(2, 2);
+		field = new Field(4, 4);
 		return "puzzle";
 	}
 
@@ -51,7 +51,9 @@ public class PuzzleController {
 				f.format("<td>\n");
 				Tile tile = field.getTile(row, column);
 				if (tile != null)
-					f.format("<a href='/puzzle/move?tile=%d'><img src='/img/img%d.jpg'></a>", tile.getValue(), tile.getValue());
+					f.format("<a href='/puzzle/move?tile=%d'><img src='/img/img%d.jpg' class='puzzle_tile'></a>", tile.getValue(), tile.getValue());
+				else 
+					f.format("<a href='/puzzle/move?tile=%d'><img src='/img/img0.jpg' class='puzzle_tile'></a>", tile.getValue(), tile.getValue());
 				f.format("</td>\n");
 			}
 			f.format("</tr>\n");

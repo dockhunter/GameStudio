@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import sk.tsystems.gamestudio.entity.Comment;
+import sk.tsystems.gamestudio.entity.Rating;
 import sk.tsystems.gamestudio.entity.Score;
 
 /*
@@ -76,6 +78,24 @@ public class ScoreServicesJDBC implements ScoreService {
 
 	@Override
 	public List<Score> getTopScore(String game) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Score> getAnswers(String game) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void addComment(Comment comment) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Comment> getComment(String comment) {
 		// TODO Auto-generated method stub
 		return null;
 	}

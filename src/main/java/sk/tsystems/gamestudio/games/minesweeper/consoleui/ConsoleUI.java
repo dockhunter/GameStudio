@@ -49,22 +49,14 @@ public class ConsoleUI implements UserInterface {
 			update();
 			processInput();
 			if (field.getState() == GameState.SOLVED){
-				System.out.println(
-						"┬ ┬┌─┐┬ ┬  ┬ ┬┌─┐┌┐┌┬\n" + 
-						"└┬┘│ ││ │  ││││ │││││\n" + 
-						" ┴ └─┘└─┘  └┴┘└─┘┘└┘o"
-						+ "LUCKY BASTARD...");
+				System.out.println("You won");
 				System.out.println("\n\n\n\n");
 
 				System.exit(0);
 				return;
 			} else if (field.getState() == GameState.FAILED) {
 				update();
-				System.err.println(
-						"╔═╗╔═╗╔╦╗╔═╗  ╔═╗╦  ╦╔═╗╦═╗\n" + 
-						"║ ╦╠═╣║║║║╣   ║ ║╚╗╔╝║╣ ╠╦╝\n" + 
-						"╚═╝╩ ╩╩ ╩╚═╝  ╚═╝ ╚╝ ╚═╝╩╚═"
-						+ "\nYOU DIED YOU IDIOT! HAHAHA");
+				System.out.println("Game over");
 				System.out.println("\n\n\n\n");
 
 				return;

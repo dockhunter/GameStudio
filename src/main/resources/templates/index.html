@@ -9,31 +9,31 @@
 	<div class="contanier">
 		<div class="title">
 			<h1>GameStudio</h1>
-	
-			<p class="center">Our favorite games:&nbsp;&nbsp;
+			<h3 class="center">	
 				<a href="/puzzle">Puzzle</a>
 				/
-				<a href="/minesweeper">Minsweeper</a>
+				<a href="/minesweeper">Minesweeper</a>
 				/
-				<a>Guess The Number</a>
+				<a href="/guessnumber">Guess The Number</a>
 				/
-				<a>Torpedo</a>
-			</p>
-			<br/>
-	
-			<div th:if="${not @mainController.logged}" class="login">
-			<h3 class="center">LOGIN</h3>
+				<a>Torpedo</a>			
+			</h3>
+			<br/>		
+			<div th:if="${@mainController.logged}" class="login center-l">
+				<p>You are logged as <span th:text="${@mainController.loggedPlayer.name}" class="red"/></p>
+				<p>Now! Let's GAME!<br/></p>
+				<a href="/logout" class="center"><br/>Logout</a><br/>
+			</div>
+			<div th:if="${not @mainController.logged}" class="login">			
+				<h3 class="center">LOGIN*</h3>
 				<form action="/login">
-					<div class="input"><p>Name:</p> <input type="text" name="name" class="input_field"/></div>
-					<div class="input"><p>Password: </p> <input type="password" name="password" class="input_field"/></div>
-					<input type="submit" value="login" class="login_button"/>
+						<div class="input"><p>Name:</p> <input type="text" name="name" required="required" class="input_field"/></div>
+						<div class="input"><p>Password: </p> <input type="password" required="required" name="password" class="input_field"/></div>
+						<p th:utext="${@mainController.message}"/>
+						<input type="submit" value="login" class="login_button"/>
 				</form>
-				<p>*Only scores of logged player will be saved and displayed on score tables.</p>
-			</div>
-			<div th:if="${@mainController.logged}" class="login">
-				You are logged as <span th:text="${@mainController.loggedPlayer.name}"/>
-				<a href="/logout">Logout</a><br/>
-			</div>
+				<p>*Only <a href="/register" class="link">registered</a> users can save scores, comment and rate games. <a href="/register" class="link">Register</a></p>
+			</div>			
 		</div>
 	</div>
 </body>

@@ -1,4 +1,6 @@
-package sk.tsystems.gamestudio.games.guessnumber;
+package sk.tsystems.gamestudio.games.minesweeper;
+
+import sk.tsystems.gamestudio.games.guessnumber.ConsoleUI;
 
 public class GuessNumber {
 	

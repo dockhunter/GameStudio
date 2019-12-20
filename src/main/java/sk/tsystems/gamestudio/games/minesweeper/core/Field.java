@@ -30,7 +30,52 @@ public class Field {
 	 * Game state.
 	 */
 	private GameState state = GameState.PLAYING;
+	
+    /** Saves the starting time of the game */
+    private long startMillis;
+    
+    private long endMillis;
 
+	public long getEndMillis() {
+		return endMillis;
+	}
+
+	public void setEndMillis(long endMillis) {
+		this.endMillis = endMillis;
+	}
+
+	public long getStartMillis() {
+		return startMillis;
+	}
+
+	public void setStartMillis(long startMillis) {
+		this.startMillis = startMillis;
+	}
+
+	public int getRowCount() {
+		return rowCount;
+	}
+
+	public int getColumnCount() {
+		return columnCount;
+	}
+
+	public int getMineCount() {
+		return mineCount;
+	}
+
+	public GameState getState() {
+		return state;
+	}
+
+	public void setState(GameState state) {
+		this.state = state;
+	}
+
+	public Tile getTile(int row, int column) {
+		return tiles[row][column];
+	}
+	
 	/**
 	 * Constructor.
 	 *
@@ -127,6 +172,7 @@ public class Field {
 		if ((rowCount * columnCount) - getNumberOf(Tile.State.OPEN) == getMineCount() && getNumberOf(Tile.State.CLOSED) == getMineCount()) {
 			return true;
 		}
+		setEndMillis(System.currentTimeMillis());
 		return false;
 	}
 
@@ -191,30 +237,6 @@ public class Field {
 
 	}
 
-	public int getRowCount() {
-		return rowCount;
-	}
-
-	public int getColumnCount() {
-		return columnCount;
-	}
-
-	public int getMineCount() {
-		return mineCount;
-	}
-
-	public GameState getState() {
-		return state;
-	}
-
-	public void setState(GameState state) {
-		this.state = state;
-	}
-
-	public Tile getTile(int row, int column) {
-		return tiles[row][column];
-	}
-	
 	/**
 	 * Gets the number of tiles by a given state.
 	 * 
@@ -251,5 +273,16 @@ public class Field {
 		} 
 		return remainingMines;
 	}
+	
+    
+    /** Returns the play time
+     * 
+     */
+    public int getPlayingSeconds() {
+    	int startSeconds = (int) (startMillis / 1000) % 60 ;
+    	int endSeconds = (int) (endMillis / 1000) % 60 ;
+       	return endSeconds - startSeconds;
+        
+    }
 
 }

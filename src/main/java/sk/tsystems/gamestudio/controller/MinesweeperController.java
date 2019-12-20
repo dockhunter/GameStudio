@@ -28,6 +28,7 @@ public class MinesweeperController {
 	@RequestMapping("/minesweeper")
 	public String index() {
 		field = new Field(9, 9, 4);
+        field.setStartMillis(System.currentTimeMillis());
 		return "minesweeper";
 
 	}
@@ -36,7 +37,7 @@ public class MinesweeperController {
 	public String open(int row, int column) {
 		field.openTile(row, column);
 		if(field.isSolved() && mainContoller.isLogged()) {
-			scoreService.addScore(new Score(mainContoller.getLoggedPlayer().getName(), "minesweeper", 10));
+			scoreService.addScore(new Score(mainContoller.getLoggedPlayer().getName(), "minesweeper", field.getPlayingSeconds()));
 		}
 		return "minesweeper";
 

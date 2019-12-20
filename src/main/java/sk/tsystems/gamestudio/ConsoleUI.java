@@ -3,7 +3,7 @@ package sk.tsystems.gamestudio;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-import sk.tsystems.gamestudio.games.guessnumber.GuessNumber;
+import sk.tsystems.gamestudio.games.minesweeper.GuessNumber;
 import sk.tsystems.gamestudio.games.minesweeper.Minesweeper;
 import sk.tsystems.gamestudio.games.puzzlegame.Puzzle15;
 

@@ -3,25 +3,25 @@ package sk.tsystems.gamestudio.entity;
 import javax.persistence.*;
 
 @Entity
-public class Comment {
-	
+public class Rating {
+
 	@Id
 	@GeneratedValue
 	private int ident;
 	
-	private String content; 
+	private int rate; 
 	
 	private String game;
 
 	private String username;
-
-	public Comment() {
+	
+	public Rating() {
 	}
 	
-	public Comment(String username, String content, String game) {
-		this.username = username;
-		this.content = content;
+	public Rating(String username, int rate, String game) {
+		this.rate = rate;
 		this.game = game;
+		this.username = username;
 	}
 
 	public int getIdent() {
@@ -32,12 +32,12 @@ public class Comment {
 		this.ident = ident;
 	}
 
-	public String getContent() {
-		return content;
+	public int getRate() {
+		return rate;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setRate(int rate) {
+		this.rate = rate;
 	}
 
 	public String getGame() {
@@ -55,5 +55,6 @@ public class Comment {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+
 
 }

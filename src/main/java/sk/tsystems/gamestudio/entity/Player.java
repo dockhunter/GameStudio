@@ -1,7 +1,12 @@
 package sk.tsystems.gamestudio.entity;
 
+import javax.persistence.*;
+
+@Entity
 public class Player {
 	
+	@Id
+	@GeneratedValue
 	private int ident;
 	
 	private String name;

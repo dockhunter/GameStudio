@@ -38,10 +38,9 @@ public class ConsoleUI {
 					String y = matcher.group(3);
 					lowerLimit = Integer.parseInt(x);
 					upperLimit = Integer.parseInt(y);
-				} else if (!matcher.matches())
+				} else if (!matcher.matches()  || lowerLimit < 0 || lowerLimit > upperLimit || upperLimit < 0)
 					System.err.println("This is not a range! Insert range again.");
-			} while ((lowerLimit == 0 && upperLimit == 0) || lowerLimit < 0 || lowerLimit > upperLimit
-					|| upperLimit < 0);
+			} while ((lowerLimit == 0 && upperLimit == 0));
 			number.generateNumber(lowerLimit, upperLimit);
 			System.out.println("Guess what number do I think of.");
 		} catch (Exception ex) {

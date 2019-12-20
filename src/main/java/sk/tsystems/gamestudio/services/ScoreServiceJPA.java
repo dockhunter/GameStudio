@@ -7,7 +7,9 @@ import javax.transaction.*;
 
 import org.springframework.stereotype.Component;
 
+import sk.tsystems.gamestudio.entity.Comment;
 import sk.tsystems.gamestudio.entity.Score;
+import sk.tsystems.gamestudio.entity.Rating;
 
 @Component
 @Transactional
@@ -20,7 +22,11 @@ public class ScoreServiceJPA implements ScoreService{
 		entityManager.persist(score);
 	}
 	
-
+	@Override
+	public void addComment(Comment comment) {
+		entityManager.persist(comment);		
+	}
+	
 	@Override
 	public List<Score> getTopScoreMinesweeper(String game) {
 		// TODO Auto-generated method stub
@@ -39,6 +45,23 @@ public class ScoreServiceJPA implements ScoreService{
 		 return	(List<Score>) entityManager.createQuery(
 				 "select s from Score s where s.game = :game order by s.value desc")
 				 .setParameter("game", game).setMaxResults(10).getResultList();
+	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Score> getAnswers(String guess) {
+		 return	(List<Score>) entityManager.createQuery(
+				 "select s from Answer s where s.guess = :guess order by s.ident desc")
+				 .setParameter("guess", guess).getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Comment> getComment(String game) {
+		 return	(List<Comment>) entityManager.createQuery(
+				 "select s from Comment s where s.game = :game order by s.ident desc")
+				 .setParameter("game", game).getResultList();
 	}
 
 }

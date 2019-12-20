@@ -7,7 +7,7 @@ public class GuessLogic {
 	public int lowerLimit, upperLimit, number;
 	static Random rnd = new Random();
 
-	GuessLogic() {
+	public GuessLogic() {
 		getNumber();
 	}
 	
