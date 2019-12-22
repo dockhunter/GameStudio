@@ -7,17 +7,15 @@
 	<!-- <div th:text="${@minesweeperController.message}"/> -->
 </head>
 <body>
-	<div class="header" th:if="${@mainController.logged}">
-		<div class="logo"><span><p><a href="/">GameStudio</a></p></span></div>
-		<div  class="account right"><span>
+	<div class="header">
+			<div class="logo"><span><p><a href="/">GameStudio:</a>&nbsp;&nbsp;<a href="/puzzle">Puzzle</a>
+			 / <a class="link">Minesweeper</a> / <a href="/guessnumber">Guess The Number</a> / <a>Torpedo</a></p></span></div>
+		<div th:if="${@mainController.logged}" class="account right"><span>
 			<p>You are logged in as 
 			<span class="red" th:text="${@mainController.loggedPlayer.name}"/> | 
 			<a href="/logout" class="link">Log out</a></span></p>
 		</div>
-		</div>
-	<div class="header" th:if="${not @mainController.logged}">
-		<div class="logo"><span><p><a href="/">GameStudio</a></p></span></div>
-		<div class="account right"><span>
+		<div  th:if="${not @mainController.logged}" class="account right"><span>
 			<p>You are not logged. Please 
 			<a href="/" class="link">log in</a> | 
 			<a href="/register" class="link">register</a></span></p>
@@ -42,18 +40,18 @@
 				<div  th:if="${@minesweeperController.marking}" class="marking_button_active">
 					<a href="/minesweeper/mark"><p class="red">You are now MARKING*</p></a>
 				</div>
-				<h3 th:if="${@minesweeperController.failed}" class="red field center ">Game over</h3>
-				<h3 th:if="${@minesweeperController.solved}" class="field center ">You won!</h3>
+ 				<h3 th:if="${@minesweeperController.failed}" class="red center ">Game over</h3>
+ 				<h3 th:if="${@minesweeperController.solved}" class="center ">You won!</h3>
 				<p th:if="${@minesweeperController.marking}" class="small_text">*Click on tiles to mark them or click on marked tiles to "unmark" them</p>
 				<a th:if="${@minesweeperController.marking}" href="/minesweeper">Restart game</a>
-				<a th:if="${@minesweeperController.playing}" href="/minesweeper">Restart game</a>
-				<a th:if="${@minesweeperController.failed}" href="/minesweeper">Start new game</a>
-				<a th:if="${@minesweeperController.solved}" href="/minesweeper">Start new game</a>
+ 				<a th:if="${@minesweeperController.playing}" href="/minesweeper">Restart game</a>
+ 				<a th:if="${@minesweeperController.failed}" href="/minesweeper">Start new game</a>
+ 				<a th:if="${@minesweeperController.solved}" href="/minesweeper">Start new game</a>
 				<a href="/" class="right">Exit game</a>
 				<br>
 			</div>
 			<div class="scores">
-				<h3 class="center">TOP 10 FASTEST PLAYERS</h3>
+				<h3>TOP 10 FASTEST SWEEPERS</h3>
 				<p class="center">___________________________</p>
 				<p>&nbsp;No. | &nbsp;Username &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;TIME</p>
 				<ol>

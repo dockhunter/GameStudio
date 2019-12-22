@@ -12,22 +12,20 @@
     </script>
 </head>
 	<body>
-		<div class="header" th:if="${@mainController.logged}">
-			<div class="logo"><span><p><a href="/">GameStudio</a></p></span></div>
-			<div  class="account right"><span>
-				<p>You are logged in as 
-				<span class="red" th:text="${@mainController.loggedPlayer.name}"/> | 
-				<a href="/logout" class="link">Log out</a></span></p>
-			</div>
+	<div class="header">
+			<div class="logo"><span><p><a href="/">GameStudio:</a>&nbsp;&nbsp;<a href="/puzzle">Puzzle</a>
+			 / <a href="/minesweeper">Minesweeper</a> / <a class="link">Guess The Number</a> / <a>Torpedo</a></p></span></div>
+		<div th:if="${@mainController.logged}" class="account right"><span>
+			<p>You are logged in as 
+			<span class="red" th:text="${@mainController.loggedPlayer.name}"/> | 
+			<a href="/logout" class="link">Log out</a></span></p>
 		</div>
-		<div class="header" th:if="${not @mainController.logged}">
-			<div class="logo"><span><p><a href="/">GameStudio</a></p></span></div>
-			<div class="account right"><span>
-				<p>You are not logged. Please 
-				<a href="/" class="link">log in</a> | 
-				<a href="/register" class="link">register</a></span></p>
-			</div>
+		<div  th:if="${not @mainController.logged}" class="account right"><span>
+			<p>You are not logged. Please 
+			<a href="/" class="link">log in</a> | 
+			<a href="/register" class="link">register</a></span></p>
 		</div>
+	</div>
 		<div class="container">	
 			<div class="guess">
 				<div class="title">
