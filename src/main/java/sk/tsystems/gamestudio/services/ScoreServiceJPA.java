@@ -43,24 +43,15 @@ public class ScoreServiceJPA implements ScoreService{
 	@Override
 	public List<Score> getTopScore(String game) {
 		 return	(List<Score>) entityManager.createQuery(
-				 "select s from Score s where s.game = :game order by s.value desc")
+				 "select s from Score s where s.game = :game order by s.value asc")
 				 .setParameter("game", game).setMaxResults(10).getResultList();
-	}
-
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Score> getAnswers(String guess) {
-		 return	(List<Score>) entityManager.createQuery(
-				 "select s from Answer s where s.guess = :guess order by s.ident desc")
-				 .setParameter("guess", guess).getResultList();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Comment> getComment(String game) {
 		 return	(List<Comment>) entityManager.createQuery(
-				 "select s from Comment s where s.game = :game order by s.ident desc")
+				 "select s from Comment s where s.game = :game order by s.ident asc")
 				 .setParameter("game", game).getResultList();
 	}
 

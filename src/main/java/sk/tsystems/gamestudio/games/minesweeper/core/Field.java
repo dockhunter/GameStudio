@@ -169,7 +169,8 @@ public class Field {
 	 * @return true if game is solved, false otherwise
 	 */
 	public boolean isSolved() {
-		if ((rowCount * columnCount) - getNumberOf(Tile.State.OPEN) == getMineCount() && getNumberOf(Tile.State.CLOSED) == getMineCount()) {
+		if ((rowCount * columnCount) - getNumberOf(Tile.State.OPEN) == getMineCount() && getNumberOf(Tile.State.CLOSED) == getMineCount()
+				|| (rowCount * columnCount) - getNumberOf(Tile.State.OPEN) == getMineCount() && getNumberOf(Tile.State.MARKED) == getMineCount()) {
 			return true;
 		}
 		setEndMillis(System.currentTimeMillis());

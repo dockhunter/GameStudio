@@ -4,52 +4,85 @@
     <title>Minesweeper</title>
 	<link rel="stylesheet" href="/css/style.css">   
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<!-- <div th:text="${@minesweeperController.message}"/> -->
 </head>
 <body>
-	<!-- <div th:text="${@minesweeperController.message}"/> -->
 	<div class="header" th:if="${@mainController.logged}">
-			<p>Welcome to GameStudio <span class="right">You are logged in as <span th:text="${@mainController.loggedPlayer.name}" class="red"/> | <a href="/logout" class="link">Log out</a></span></p>
-	</div>
+		<div class="logo"><span><p><a href="/">GameStudio</a></p></span></div>
+		<div  class="account right"><span>
+			<p>You are logged in as 
+			<span class="red" th:text="${@mainController.loggedPlayer.name}"/> | 
+			<a href="/logout" class="link">Log out</a></span></p>
+		</div>
+		</div>
 	<div class="header" th:if="${not @mainController.logged}">
-		<p>Welcome to GameStudio <span class="right">You are not logged. Please <a href="/" class="link">log in</a></span></p>
+		<div class="logo"><span><p><a href="/">GameStudio</a></p></span></div>
+		<div class="account right"><span>
+			<p>You are not logged. Please 
+			<a href="/" class="link">log in</a> | 
+			<a href="/register" class="link">register</a></span></p>
+		</div>
 	</div>
-	<div class="mine_container">
-			<h2 class="center">Minesweeper</h2>
+	<div class="container">	
+		<div class="mine">
+			<div class="title">
+				<h2 class="center game_title">Minesweeper</h2>
+				<p class="right rating_title">Rating for this game: <span th:text="${@minesweeperController.ratings}"/><img src="/css/star_full.svg" class="star"></p>
+			</div>
 			<p>Welcome! Start playing by clicking on tiles.<br> You can also mark tiles by entering the MARKING mode</p>
 		<div class="interaction">
-		
-			<div th:utext="${@minesweeperController.htmlField}"/>
-			<br>
-			<div th:if="${@minesweeperController.playing}">
-				<div th:if="${not @minesweeperController.marking}" class="marking_button">
+			<div class="field">
+				<div th:utext="${@minesweeperController.htmlField}"/>
+				<br>
+				<div th:if="${@minesweeperController.playing}">
+					<div th:if="${not @minesweeperController.marking}" class="marking_button">
 					<a href="/minesweeper/mark"><p>Enter MARKING mode</p></a>
+					</div>
 				</div>
+				<div  th:if="${@minesweeperController.marking}" class="marking_button_active">
+					<a href="/minesweeper/mark"><p class="red">You are now MARKING*</p></a>
+				</div>
+				<h3 th:if="${@minesweeperController.failed}" class="red field center ">Game over</h3>
+				<h3 th:if="${@minesweeperController.solved}" class="field center ">You won!</h3>
+				<p th:if="${@minesweeperController.marking}" class="small_text">*Click on tiles to mark them or click on marked tiles to "unmark" them</p>
+				<a th:if="${@minesweeperController.marking}" href="/minesweeper">Restart game</a>
+				<a th:if="${@minesweeperController.playing}" href="/minesweeper">Restart game</a>
+				<a th:if="${@minesweeperController.failed}" href="/minesweeper">Start new game</a>
+				<a th:if="${@minesweeperController.solved}" href="/minesweeper">Start new game</a>
+				<a href="/" class="right">Exit game</a>
+				<br>
 			</div>
-			<div  th:if="${@minesweeperController.marking}" class="marking_button_active">
-				<a href="/minesweeper/mark"><p class="red">You are now MARKING*</p></a>
+			<div class="scores">
+				<h3 class="center">TOP 10 FASTEST PLAYERS</h3>
+				<p class="center">___________________________</p>
+				<p>&nbsp;No. | &nbsp;Username &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;TIME</p>
+				<ol>
+					<li th:each="score : ${@minesweeperController.scores}" class="scores_line">
+					&nbsp;<span th:text="${score.username}"/>:
+					<span th:text="${score.value}" class="right"/>
+					</li>
+				</ol>
 			</div>
-			<h3 th:if="${@minesweeperController.failed}" class="red field center ">Game over</h3>
-			<h3 th:if="${@minesweeperController.solved}" class="field center ">You won!</h3>
-			<p th:if="${@minesweeperController.marking}" class="small_text">*Click on tiles to mark them or click on marked tiles to "unmark" them</p>
-			<a th:if="${@minesweeperController.marking}" href="/minesweeper">Restart game</a>
-			<a th:if="${@minesweeperController.playing}" href="/minesweeper">Restart game</a>
-			<a th:if="${@minesweeperController.failed}" href="/minesweeper">Start new game</a>
-			<a th:if="${@minesweeperController.solved}" href="/minesweeper">Start new game</a>
-			<a href="/" class="right">Exit game</a>
-			<br>
 		</div>
-		
-		<div class="scores">
-		<h3 class="center">TOP 10 PLAYERS</h3>
-		<p class="center">___________________________</p>
-		<p>&nbsp;No. | &nbsp;Username &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;Score</p>
-			<ol>
-			<li th:each="score : ${@minesweeperController.scores}" class="scores_line">
-				&nbsp;<span th:text="${score.username}"/>:
-				<span th:text="${score.value}" class="right"/>
-			</li>
-			</ol>
-		</div>
+		<div class="guess_comments" id="data">
+			<p>COMMENT SECTION</p>
+			<ol th:each="comment : ${@minesweeperController.comments}">
+					<div class="comment">
+						<div class="users">
+							<span class="username" th:text="${comment.username}"/><br>
+								<span class="date" th:text="${comment.date}"/>
+							</div>
+							<div class="content"><span th:text="${comment.content}"/></div>
+						</div>
+					</ol>
+					<div th:if="${@mainController.logged}">
+						<form class="comment_form" action="/minesweeper/comment">
+							<textarea name="content" min="1" max="255" class="submit_field" required="requred"></textarea>
+							<input type="submit" value="submit" class="submit_button"/>
+						</form>
+					</div>
+				</div>
+		</div>	
 	</div>
 </body>
 </html>

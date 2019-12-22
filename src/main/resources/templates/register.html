@@ -7,8 +7,9 @@
 </head>
 <body>
 	<div class="contanier">
-		<div class="title">
-			<h1>GameStudio</h1>
+		<div class="main">
+			<h1 class="hide">GameStudio</h1>
+			<h1 class="show">Game<br>Studio</h1>
 			<h3 class="center">	
 				<a href="/puzzle">Puzzle</a>
 				/
@@ -25,10 +26,10 @@
 			</div>
 				<p class="center-l">For name use only combinations <br> of letters and numbers.</p>
 			<div class="login">	
-				<form action="/register/regist">
-					<div class="input"><p>Username:</p> <input type="text" name="name" pattern="[A-Za-z0-9]{1,255}" required="required"
+				<form action="/register/regist" autocomplete="off">
+					<div class="input"><p>Username:</p> <input autocomplete="new-password" type="text" name="name" pattern="[A-Za-z0-9]{1,255}" required="required"
 					class="input_field"/></div>
-					<div class="input"><p>Password: </p> <input type="password" name="password" required="required" class="input_field"/></div>
+					<div class="input"><p>Password: </p> <input autocomplete="new-password" type="password" name="password" required="required" class="input_field"/></div>
 					<input type="submit" value="register" class="login_button"/>
 				</form>
 				<p>*Only registered users can save scores, comment and rate games. <a href="/" class="link">Log in</a></p>

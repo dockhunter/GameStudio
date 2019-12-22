@@ -7,8 +7,9 @@
 </head>
 <body>
 	<div class="contanier">
-		<div class="title">
-			<h1>GameStudio</h1>
+		<div class="main">
+			<h1 class="hide">GameStudio</h1>
+			<h1 class="show">Game<br>Studio</h1>
 			<h3 class="center">	
 				<a href="/puzzle">Puzzle</a>
 				/
@@ -20,8 +21,7 @@
 			</h3>
 			<br/>		
 			<div th:if="${@mainController.logged}" class="login center-l">
-				<p>You are logged as <span th:text="${@mainController.loggedPlayer.name}" class="red"/></p>
-				<p>Now! Let's GAME!<br/></p>
+				<h3>You are logged as <span th:text="${@mainController.loggedPlayer.name}" class="red"/><br>Now! Let's GAME!<br/></h3>
 				<a href="/logout" class="center"><br/>Logout</a><br/>
 			</div>
 			<div th:if="${not @mainController.logged}" class="login">			

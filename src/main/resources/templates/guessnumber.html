@@ -3,69 +3,102 @@
 <head>
     <title>GuessNumber</title>
     <link rel="stylesheet" href="/css/style.css">  
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script>
+    window.setInterval(function() {
+    	  var elem = document.getElementById('data');
+    	  elem.scrollBottom = elem.scrollHeight;
+    	}, 20);
+    </script>
 </head>
 	<body>
 		<div class="header" th:if="${@mainController.logged}">
-			<p><a href="/">GameStudio</a>  <span class="right">You are logged in as <span class="red" th:text="${@mainController.loggedPlayer.name}"/> | <a href="/logout" class="link">Log out</a></span></p>
+			<div class="logo"><span><p><a href="/">GameStudio</a></p></span></div>
+			<div  class="account right"><span>
+				<p>You are logged in as 
+				<span class="red" th:text="${@mainController.loggedPlayer.name}"/> | 
+				<a href="/logout" class="link">Log out</a></span></p>
+			</div>
 		</div>
 		<div class="header" th:if="${not @mainController.logged}">
-			<p><a href="/">GameStudio</a> <span class="right">You are not logged. Please <a href="/" class="link">log in</a> | <a href="/" class="link">register</a></span></p>
+			<div class="logo"><span><p><a href="/">GameStudio</a></p></span></div>
+			<div class="account right"><span>
+				<p>You are not logged. Please 
+				<a href="/" class="link">log in</a> | 
+				<a href="/register" class="link">register</a></span></p>
+			</div>
 		</div>
-			<div class="container">
-				<br>
-				<div th:if="${not @mainController.logged}">
-					<p>Welcome stranger, guess what number I am thinking from 1 to 10. </p>
+		<div class="container">	
+			<div class="guess">
+				<div class="title">
+					<h2 class="center game_title">Guess The Number</h2>
+					<p class="right rating_title">Rating for this game: <span th:text="${@guessController.ratings}"/><img src="/css/star_full.svg" class="star"></p>
 				</div>
-				<div th:if="${@mainController.logged}">
-				<p>Welcome <span class="red" th:text="${@mainController.loggedPlayer.name}"/>, guess what number I am thinking from 1 to 10. </p>
-				</div>
-			
- 				<div th:if="${not @guessController.solved}">
+				<div class="conversation">	
 <!--  					<span th:text="${@guessController.answer} ? '': ${@guessController.message}"></span> -->
- 					<p th:text="${@guessController.message}"/>
-					<form action="/guessnumber/input">
+					<div th:if="${not @mainController.logged}">
+						<p class="ai">AI: Welcome stranger, guess what number I am thinking from 1 to 10.</p>
+					</div>
+					<div th:if="${@mainController.logged}">
+						<p class="ai">AI: Welcome <span class="red" th:text="${@mainController.loggedPlayer.name}"/>, guess what number I am thinking from 1 to 10. </p>
+					</div>
+					<span th:utext="${@guessController.conversation}"/>
+					<span th:utext="${@guessController.message}"/>
+					<form action="/guessnumber/input" th:if="${not @guessController.solved}">
 						<input type="text" name="guess" class="guess_input_field" autofocus/>
-						<input type="submit" value="guess" class="login_button"/>
+						<input type="submit" value="guess" class="guess_button"/><br>
 					</form>
- 				</div>
-				<div th:if="${@guessController.solved}">
- 					<p>You are correct!</p>
+					<div th:if="${not @guessController.solved}">
+						<a href="/guessnumber">Start new guessing</a> | <a href="/">Exit game</a> <a class="right">Show HIGH SCORES</a>
+					</div>
+					<div th:if="${@guessController.solved}">
+						<a href="/guessnumber"><div class="final_button">Start new guessing </div></a>
+						<a href="/"><div class="final_button">Exit game </div></a>
+						<div th:if="${@mainController.logged}">
+							<a href="#"><div class="final_button">Show HIGH SCORES </div></a>
+							<div class="rating right">
+								<span>RATE THIS GAME:</span>							
+								<form class="stars" action="/guessnumber/rating">
+									<div class="stars_center">
+	    							<input class="star star-5" id="star-5" type="radio" value="5" name="rate"/>
+	    								<label class="star star-5" for="star-5"></label>
+	    							<input class="star star-4" id="star-4" type="radio" value="4" name="rate"/>
+	    								<label class="star star-4" for="star-4"></label>
+	    							<input class="star star-3" id="star-3" type="radio" value="3" name="rate"/>
+	   									<label class="star star-3" for="star-3"></label>
+  									<input class="star star-2" id="star-2" type="radio" value="2" name="rate"/>
+	   									<label class="star star-2" for="star-2"></label>
+	   								<input class="star star-1" id="star-1" type="radio" value="1" name="rate"/>
+	    								<label class="star star-1" for="star-1"></label>
+	    							</div>
+	   								<input type="submit" value="submit" class="submit_button"/>
+								</form>
+							</div>
+						</div>
+						<a href="#" th:if="${not @mainController.logged}"><div class="final_button right">Show HIGH SCORES </div></a>		
+					</div>
 				</div>
-				
-				<h3>COMMENT SECTION</h3>
-				<ol>
-				<li th:each="comment : ${@guessController.comments}" class="scores_line">
-				<span class="" th:text="${comment.username}"/>
-				&nbsp;<span th:text="${comment.content}"/>
-				</li>
-				</ol>
-				<div th:if="${@mainController.logged}">
-					<form action="/guessnumber/comment">
-						<textarea name="content" min="1" max="255" class="input_field" autofocus></textarea>
-						<input type="submit" value="submit" class="login_button"/>
-					</form>
-				
-					<h3>RATE THIS GAME!</h3>
-					<form class="stars" action="/guessnumber/rating">
-	    				<input class="star star-5" id="star-5" type="radio" value="5" name="rate"/>
-	    				<label class="star star-5" for="star-5"></label>
-	    				<input class="star star-4" id="star-4" type="radio" value="4" name="rate"/>
-	    				<label class="star star-4" for="star-4"></label>
-	    				<input class="star star-3" id="star-3" type="radio" value="3" name="rate"/>
-	    				<label class="star star-3" for="star-3"></label>
-	   					<input class="star star-2" id="star-2" type="radio" value="2" name="rate"/>
-	    				<label class="star star-2" for="star-2"></label>
-	    				<input class="star star-1" id="star-1" type="radio" value="1" name="rate"/>
-	    				<label class="star star-1" for="star-1"></label>
-	    				<input type="submit" value="rate" class="login_button"/>
-					</form>
+<!--  					<div th:text="${@guessController.clear}"/> -->
+				<div class="guess_comments" id="data">
+					<p>COMMENT SECTION</p>
+					<ol th:each="comment : ${@guessController.comments}">
+						<div class="comment">
+							<div class="users">
+								<span class="username" th:text="${comment.username}"/><br>
+								<span class="date" th:text="${comment.date}"/>
+							</div>
+							<div class="content"><span th:text="${comment.content}"/></div>
+						</div>
+					</ol>
+					<div th:if="${@mainController.logged}">
+						<form class="comment_form" action="/guessnumber/comment">
+							<textarea name="content" min="1" max="255" class="submit_field" required="requred"></textarea>
+							<input type="submit" value="submit" class="submit_button"/>
+						</form>
+					</div>
 				</div>
-				<p>Rating for this game: <span th:text="${@guessController.ratings}"/></p>
+				</div>
 			</div>	
-			<a href="/" class="right">Exit game</a>
-			<a href="/guessnumber" class="right">Start new guessing</a>
 			<br/>
 	</body>
 </html>

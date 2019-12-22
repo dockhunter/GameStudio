@@ -1,5 +1,6 @@
 package sk.tsystems.gamestudio.controller;
 
+import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.List;
 import java.util.Random;
@@ -14,14 +15,24 @@ import sk.tsystems.gamestudio.entity.*;
 import sk.tsystems.gamestudio.games.guessnumber.*;
 import sk.tsystems.gamestudio.services.*;
 
+import java.text.SimpleDateFormat;  
+import java.util.Date; 
+
 @Controller
 @Scope(WebApplicationContext.SCOPE_SESSION)
 @RequestMapping("/guessnumber")
 public class GuessController {
+	
+	SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
+    Date date = new Date();  
+
+	List<String> commentary = new ArrayList<>();
+	
+	int solved;
 
 	@Autowired
 	private ScoreService scoreService;
-	
+
 	@Autowired
 	private RatingService ratingService;
 
@@ -40,16 +51,32 @@ public class GuessController {
 	public String index() {
 		number.generateNumber(lowerLimit, upperLimit);
 		answer = null;
+		solved = 0;
+		commentary.clear();
 		return "guessnumber";
 	}
 
 	@RequestMapping("/input")
 	public String processInput(String guess) {
 		Formatter f = new Formatter();
-		try {
-			answer = 0;
-			answer = Integer.parseInt(guess);
-		} catch (Exception ex) {
+		if (!guess.isBlank() && !guess.equals(null)) {
+			try {
+				answer = Integer.parseInt(guess);
+			} catch (Exception ex) {
+				if (mainContoller.isLogged())
+					commentary.add(mainContoller.getLoggedPlayer().getName() + ": " + guess + "<br>"
+							+ "<p class='ai red'>AI: Please use only numbers</p>");
+				else
+					commentary.add("You: " + guess + "<br>" + "<p class='ai red'>AI: Please use only numbers</p>");
+					answer = null;
+			}
+			if (answer != null && answer != 0) {
+				if (mainContoller.isLogged()) {
+					commentary.add(mainContoller.getLoggedPlayer().getName() + ": " + guess);
+				} else {
+					commentary.add("You: " + guess);
+				}
+			}
 		}
 		return "guessnumber";
 	}
@@ -59,7 +86,7 @@ public class GuessController {
 		Formatter f = new Formatter();
 		try {
 			if (mainContoller.isLogged())
-				scoreService.addComment(new Comment(mainContoller.getLoggedPlayer().getName(), content, "guessnumber"));
+				scoreService.addComment(new Comment(mainContoller.getLoggedPlayer().getName(), content, "guessnumber", formatter.format(date)));
 		} catch (Exception ex) {
 		}
 		return "guessnumber";
@@ -80,45 +107,67 @@ public class GuessController {
 	public String getMessage() {
 		Formatter f = new Formatter();
 		try {
-//			if (!String.valueOf(answer).isBlank())			
-			if (answer == number.getNumber())
-				f.format("Your answer is correct!");
-			else if (answer == number.getNumber() + 1 || answer == number.getNumber() - 1)
-				f.format("You are really close! Try again.");
-			else if (answer < lowerLimit || answer > upperLimit)
-				f.format("Warning! You are not guessing in range.");
-			else {
+//			if (!String.valueOf(answer).isBlank())
+			if (answer == number.getNumber()) {
+				f.format("<br><br><span class='t'>AI: Yes! You are correct! My number was </span>" + number.getNumber() + "<br><br>");
+				solved = 1;
+			} else if (answer == number.getNumber() + 1 || answer == number.getNumber() - 1) {
+				f.format("<p class='ai t'>AI: You are really close! Try again.</p>");
+				commentary.add("<p class='ai'>AI: You are really close! Try again.</p>");
+			} else if (answer < lowerLimit || answer > upperLimit) {
+				f.format("<p class='ai t red'>AI: Warning! You are not guessing in the range 1 to 10.</p>");
+				commentary.add("<p class='ai red'>AI: Warning! You are not guessing in the range 1 to 10.</p>");
+			} else {
 				int randomNumbers = rnd.nextInt(6) + 1;
 				switch (randomNumbers) {
 				case 1:
-					f.format("No. try again...");
+					f.format("<p class='ai t'>AI: No. try again...</p>");
+					commentary.add("<p class='ai'>AI: No. try again...</p>");
 					break;
 				case 2:
-					f.format("No...");
+					f.format("<p class='ai t'>AI: No...</p>");
+					commentary.add("<p class='ai'>AI: No...</p>");
 					break;
 				case 3:
-					f.format("You are not even close...");
+					f.format("<p class='ai t'>AI: You are not even close...</p>");
+					commentary.add("<p class='ai'>AI: You are not even close...</p>");
 					break;
 				case 4:
-					f.format("Really??... No! Guess again...");
+					f.format("<p class='ai t'>AI: Really??... No! Guess again...</p>");
+					commentary.add("<p class='ai'>AI: Really??... No! Guess again...</p>");
 					break;
 				case 5:
-					f.format("Boooooring... Try again...");
+					f.format("<p class='ai t'>AI: Boooooring... Try again...</p>");
+					commentary.add("<p class='ai'>AI: Boooooring... Try again...</p>");
 					break;
 				case 6:
-					f.format("You almoust had it! ..No just kidding... Try again!");
+					f.format("<p class='ai t'>AI: You almoust had it! ..No just kidding... Try again!</p>");
+					commentary.add("<p class='ai'>AI: You almoust had it! ..No just kidding... Try again!</p>");
 					break;
 				}
 			}
 		} catch (Exception ex) {
 		}
+		answer = null;
+		return f.toString();
+	}
+
+	public String getConversation() {
+		Formatter f = new Formatter();
+		for (String string : commentary) {
+			f.format(string);
+		}
 		return f.toString();
 	}
 
 	public boolean isSolved() {
-		if (answer == null || answer != number.getNumber())
+		if (solved != 1)
 			return false;
 		return true;
+	}
+
+	public List<String> getCommentary() {
+		return commentary;
 	}
 
 	public List<Comment> getComments() {
@@ -127,6 +176,10 @@ public class GuessController {
 
 	public double getRatings() {
 		return ratingService.getAverageRating("guessnumber");
+	}
+
+	public void getClear() {
+		commentary.clear();
 	}
 
 }

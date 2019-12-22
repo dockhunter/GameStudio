@@ -1,5 +1,7 @@
 package sk.tsystems.gamestudio.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Formatter;
 import java.util.List;
 
@@ -9,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.WebApplicationContext;
 
+import sk.tsystems.gamestudio.entity.Comment;
+import sk.tsystems.gamestudio.entity.Rating;
 import sk.tsystems.gamestudio.entity.Score;
 import sk.tsystems.gamestudio.games.minesweeper.core.*;
 import sk.tsystems.gamestudio.services.*;
@@ -16,12 +20,18 @@ import sk.tsystems.gamestudio.services.*;
 @Controller
 @Scope(WebApplicationContext.SCOPE_SESSION)
 public class MinesweeperController {
-
+	
+	SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
+    Date date = new Date();  
+    
 	private Field field;
 	
 	@Autowired
 	private ScoreService scoreService;
-	
+
+	@Autowired
+	private RatingService ratingService;
+
 	@Autowired
 	private MainController mainContoller;
 	
@@ -32,7 +42,29 @@ public class MinesweeperController {
 		return "minesweeper";
 
 	}
+	
+	@RequestMapping("/minesweeper/comment")
+	public String comment(String content) {
+		Formatter f = new Formatter();
+		try {
+			if (mainContoller.isLogged())
+				scoreService.addComment(new Comment(mainContoller.getLoggedPlayer().getName(), content, "minesweeper", formatter.format(date)));
+		} catch (Exception ex) {
+		}
+		return "minesweeper";
+	}
 
+	@RequestMapping("/minesweeper/rating")
+	public String rating(int rate) {
+		Formatter f = new Formatter();
+		try {
+			if (mainContoller.isLogged())
+				// if (rate > 0 || rate < 6)
+				ratingService.setRating(new Rating(mainContoller.getLoggedPlayer().getName(), rate, "minesweeper"));
+		} catch (Exception ex) {
+		}
+		return "minesweeper";
+	}
 	@RequestMapping("/minesweeper/open")
 	public String open(int row, int column) {
 		field.openTile(row, column);
@@ -72,7 +104,7 @@ public class MinesweeperController {
 				if (field.getState().equals(GameState.PLAYING)) {
 					if (tile.getState() == Tile.State.CLOSED)
 						f.format(
-								"<a href='/minesweeper/open?row=%d&column=%d'><img src='/images/tile.jpg' class='img'></a>",
+								"<a href='/minesweeper/open?row=%d&column=%d'><img src='/images/tile.jpg' class='img tile'></a>",
 								row, column);
 					else if (tile instanceof Mine && tile.getState() == Tile.State.OPEN) {
 						f.format("<img src='/images/bomb.jpg' class='img'>");
@@ -86,7 +118,7 @@ public class MinesweeperController {
 				} else if (field.getState().equals(GameState.MARKING)) {
 					if (tile.getState() == Tile.State.CLOSED)
 						f.format(
-								"<a href='/minesweeper/markTile?row=%d&column=%d'><img src='/images/tile.jpg' class='img'></a>",
+								"<a href='/minesweeper/markTile?row=%d&column=%d'><img src='/images/tile.jpg' class='img tile'></a>",
 								row, column);
 					else if (tile.getState() == Tile.State.MARKED)
 						f.format(
@@ -102,7 +134,7 @@ public class MinesweeperController {
 					}
 				} else {
 					if (tile.getState() == Tile.State.CLOSED && !(tile instanceof Mine))
-						f.format("<img src='/images/tile.jpg' class='img'>", row, column);
+						f.format("<img src='/images/tile.jpg' class='img tile'>", row, column);
 					else if (tile instanceof Mine && tile.getState() == Tile.State.OPEN) {
 						f.format("<img src='/images/bomb.jpg' class='img'>");
 						field.setState(GameState.FAILED);
@@ -156,7 +188,14 @@ public class MinesweeperController {
 	public List<Score> getScores() {
 		return scoreService.getTopScore("minesweeper");
 	}
-	
+
+	public List<Comment> getComments() {
+		return scoreService.getComment("minesweeper");
+	}
+
+	public double getRatings() {
+		return ratingService.getAverageRating("minesweeper");
+	}
 //	public String getHighScores() {
 //		Formatter f = new Formatter();
 //		ScoreService scoreService = new ScoreServicesJDBC();

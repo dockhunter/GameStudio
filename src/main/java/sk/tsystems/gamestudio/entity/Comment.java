@@ -14,14 +14,25 @@ public class Comment {
 	private String game;
 
 	private String username;
+	
+	private String date;
 
 	public Comment() {
 	}
 	
-	public Comment(String username, String content, String game) {
+	public Comment(String username, String content, String game, String date) {
 		this.username = username;
 		this.content = content;
 		this.game = game;
+		this.date = date;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
 	}
 
 	public int getIdent() {

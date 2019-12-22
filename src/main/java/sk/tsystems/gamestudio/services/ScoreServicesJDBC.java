@@ -83,12 +83,6 @@ public class ScoreServicesJDBC implements ScoreService {
 	}
 
 	@Override
-	public List<Score> getAnswers(String game) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void addComment(Comment comment) {
 		// TODO Auto-generated method stub
 		

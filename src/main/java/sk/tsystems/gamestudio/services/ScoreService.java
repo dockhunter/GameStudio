@@ -19,7 +19,6 @@ public interface ScoreService {
 	List<Comment> getComment(String game);
 	
 	List<Score> getTopScore(String game);
-	
-	List<Score> getAnswers(String game);
+
 	
 }
