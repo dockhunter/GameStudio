@@ -112,7 +112,7 @@ public class MinesweeperController {
 					} else if (tile instanceof Clue && tile.getState() == Tile.State.OPEN) {
 						Clue clue = (Clue) tile;
 						int value = clue.getValue();
-						f.format("<img src='/images/%d.jpg' class='img'>", value);
+						f.format("<img src='/images/%d.png' class='img'>", value);
 					} else if (tile.getState() == Tile.State.MARKED)
 						f.format("<img src='/images/marked.jpg' class='img'>");
 				} else if (field.getState().equals(GameState.MARKING)) {
@@ -130,7 +130,7 @@ public class MinesweeperController {
 					} else if (tile instanceof Clue && tile.getState() == Tile.State.OPEN) {
 						Clue clue = (Clue) tile;
 						int value = clue.getValue();
-						f.format("<img src='/images/%d.jpg' class='img'>", value);
+						f.format("<img src='/images/%d.png' class='img'>", value);
 					}
 				} else {
 					if (tile.getState() == Tile.State.CLOSED && !(tile instanceof Mine))
@@ -141,7 +141,7 @@ public class MinesweeperController {
 					} else if (tile instanceof Clue && tile.getState() == Tile.State.OPEN) {
 						Clue clue = (Clue) tile;
 						int value = clue.getValue();
-						f.format("<img src='/images/%d.jpg' class='img'>", value);
+						f.format("<img src='/images/%d.png' class='img'>", value);
 					} else if (tile instanceof Mine || tile.getState() == Tile.State.MARKED)
 						f.format("<img src='/images/marked.jpg' class='img'>");
 				}
