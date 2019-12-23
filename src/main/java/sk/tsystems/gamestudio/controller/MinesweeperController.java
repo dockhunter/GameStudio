@@ -65,10 +65,11 @@ public class MinesweeperController {
 		}
 		return "minesweeper";
 	}
+	
 	@RequestMapping("/minesweeper/open")
 	public String open(int row, int column) {
 		field.openTile(row, column);
-		if(field.isSolved() && mainContoller.isLogged()) {
+		if(field.isSolved() && mainContoller.isLogged() && field.getPlayingSeconds()<= 0 ) {
 			scoreService.addScore(new Score(mainContoller.getLoggedPlayer().getName(), "minesweeper", field.getPlayingSeconds()));
 		}
 		return "minesweeper";
@@ -118,19 +119,19 @@ public class MinesweeperController {
 				} else if (field.getState().equals(GameState.MARKING)) {
 					if (tile.getState() == Tile.State.CLOSED)
 						f.format(
-								"<a href='/minesweeper/markTile?row=%d&column=%d'><img src='/images/tile.jpg' class='img tile'></a>",
+								"<a id'm' href='/minesweeper/markTile?row=%d&column=%d'><img src='/images/tile.jpg' class='img tile'></a>",
 								row, column);
 					else if (tile.getState() == Tile.State.MARKED)
 						f.format(
-								"<a href='/minesweeper/markTile?row=%d&column=%d'><img src='/images/marked.jpg' class='img'></a>",
+								"<a id'm' href='/minesweeper/markTile?row=%d&column=%d'><img src='/images/marked.jpg' class='img'></a>",
 								row, column);
 					else if (tile instanceof Mine && tile.getState() == Tile.State.OPEN) {
-						f.format("<img src='/images/bomb.jpg' class='img'>");
+						f.format("<img src='/images/bomb.jpg' id'm' class='img'>");
 						field.setState(GameState.FAILED);
 					} else if (tile instanceof Clue && tile.getState() == Tile.State.OPEN) {
 						Clue clue = (Clue) tile;
 						int value = clue.getValue();
-						f.format("<img src='/images/%d.png' class='img'>", value);
+						f.format("<img src='/images/%d.png' id'm' class='img'>", value);
 					}
 				} else {
 					if (tile.getState() == Tile.State.CLOSED && !(tile instanceof Mine))

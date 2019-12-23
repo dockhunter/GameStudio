@@ -94,7 +94,7 @@ public class Field {
 		int total = (columnCount * rowCount) - 1;
 		int tiletomove;
 
-		for (int x = 0; x < 2000; x++) {
+		for (int x = 0; x < 10; x++) {
 			tiletomove = rnd.nextInt(total) + 1;
 			moveTile(tiletomove);
 		}

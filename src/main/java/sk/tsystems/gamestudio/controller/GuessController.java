@@ -109,7 +109,7 @@ public class GuessController {
 		try {
 //			if (!String.valueOf(answer).isBlank())
 			if (answer == number.getNumber()) {
-				f.format("<br><br><span class='t'>AI: Yes! You are correct! My number was </span>" + number.getNumber() + "<br><br>");
+				f.format("<br><br><span class='t' id='data'>AI: Yes! You are correct! My number was </span>" + number.getNumber() + "<br><br>");
 				solved = 1;
 			} else if (answer == number.getNumber() + 1 || answer == number.getNumber() - 1) {
 				f.format("<p class='ai t'>AI: You are really close! Try again.</p>");

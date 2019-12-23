@@ -5,45 +5,92 @@
     <link rel="stylesheet" href="/css/style.css">  
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
-	<body>
-		<div class="header" th:if="${@mainController.logged}">
-			<p>Welcome to GameStudio <span class="right">You are logged in as <span th:text="${@mainController.loggedPlayer.name}"/> | <a href="/logout" class="link">Log out</a></span></p>
+<body>
+	<div class="header">
+			<div class="logo"><span><p><a href="/">GameStudio:</a>&nbsp;&nbsp;<a class="link">Puzzle</a>
+			 / <a href="/minesweeper">Minesweeper</a> / <a href="/guessnumber">Guess The Number</a> / <a>Torpedo</a></p></span></div>
+		<div th:if="${@mainController.logged}" class="account right"><span>
+			<p>You are logged in as 
+			<span class="red" th:text="${@mainController.loggedPlayer.name}"/> | 
+			<a href="/logout" class="link">Log out</a></span></p>
 		</div>
-		<div class="header" th:if="${not @mainController.logged}">
-			<p>Welcome to GameStudio <span class="right">You are not logged. Please <a href="/" class="link">log in</a></span></p>
+		<div  th:if="${not @mainController.logged}" class="account right"><span>
+			<p>You are not logged. Please 
+			<a href="/" class="link">log in</a> | 
+			<a href="/register" class="link">register</a></span></p>
 		</div>
-		<div class="mine_container">
-		<h2>Puzzle</h2>
-		<div class="interaction">
-			<div th:if="${@puzzleController.solved}">
-				<h3>You have solved the puzzle.</h3>
+	</div>
+	<div class="container">	
+		<div class="puzzle">
+			<div class="title">
+				<h2 class="center game_title">Puzzle</h2>
+				<p class="right rating_title">Rating for this game: <span th:text="${@puzzleController.ratings}"/><img src="/css/star_full.svg" class="star"></p>
 			</div>
-
-			<!-- Solved: <span th:text="${@puzzleController.solved}"/><br/> -->
-			<br>
-			<div th:if="${not @puzzleController.solved}"> 
+		<div class="puzzle_container">
+			<div class="grid">
+				<h3 th:if="${@puzzleController.solved}">You have solved the puzzle.</h3>
+				<!-- Solved: <span th:text="${@puzzleController.solved}"/><br/> -->
+				<span th:if="${@puzzleController.solved}" class="solved center ">SOLVED!</span>
 				<div th:utext="${@puzzleController.htmlField}"/>
-			</div>
-
-			<h3 th:if="${@puzzleController.solved}" class="field center ">You won!</h3>
-			<a th:if="${not @puzzleController.solved}" href="/puzzle">Restart game</a>
-			<a th:if="${@puzzleController.solved}" href="/puzzle">Start new game</a>
-			<a href="/" class="right">Exit game</a>
-			<br/>
-			<p>Hint:</p>
-			<img class="hint" src="/img/puzzle.jpg">
+				<br>
+				<a th:if="${not @puzzleController.solved}" href="/puzzle">Restart game</a>
+				<a th:if="${@puzzleController.solved}" href="/puzzle">Start new game</a>
+				<a href="/" class="right">Exit game</a>
+				<br/>
+			</div>			
+			<div class="puzzle_scores scores">
+				<h3>TOP 10 PUZZLE SOLVERS</h3>
+				<p class="center">___________________________</p>
+				<p>&nbsp;No. | &nbsp;Username &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;TIME</p>
+				<div class="score">
+					<ol>
+						<li th:each="score : ${@puzzleController.scores}" class="scores_line">
+						&nbsp;<span th:text="${score.username}"/>:
+						<span th:text="${score.value}" class="right"/>
+						</li>
+					</ol>
+				</div>
+			</div>	
 		</div>	
-						
-			<div class="scores">
-			<h3 class="center">TOP 10 PLAYERS</h3>
-			<p class="center">_______________________</p>
-			<p>&nbsp;No. | Username   |  # of moves</p>
-			<ol>
-			<li th:each="score : ${@puzzleController.scores}" class="scores_line">
-				&nbsp;<span th:text="${score.username}"/>
-				<span class="" th:text="${score.value}"/>
-			</li>
-			</ol>
+		<div th:if="${@puzzleController.solved}">
+			<div class="rating" th:if="${@mainController.logged}">
+					<span class="rate_title">RATE THIS GAME:</span>							
+					<form class="stars" action="/puzzle/rating">
+						<div class="stars_center">
+							<input class="star star-5" id="star-5" type="radio" value="5" name="rate"/>
+	   							<label class="star star-5" for="star-5"></label>
+							<input class="star star-4" id="star-4" type="radio" value="4" name="rate"/>
+	   							<label class="star star-4" for="star-4"></label>
+	  						<input class="star star-3" id="star-3" type="radio" value="3" name="rate"/>
+								<label class="star star-3" for="star-3"></label>
+  							<input class="star star-2" id="star-2" type="radio" value="2" name="rate"/>
+	   							<label class="star star-2" for="star-2"></label>
+	   						<input class="star star-1" id="star-1" type="radio" value="1" name="rate"/>
+	    						<label class="star star-1" for="star-1"></label>
+	   					</div>
+	  					<input type="submit" value="submit" class="rate_button"/>
+					</form>
+			</div>
+		</div>	
+		<div class="guess_comments">
+			<p>COMMENT SECTION</p>
+			<ol th:each="comment : ${@puzzleController.comments}">
+					<div class="comment">
+						<div class="users">
+							<span class="username" th:text="${comment.username}"/><br>
+								<span class="date" th:text="${comment.date}"/>
+							</div>
+							<div class="content"><span th:text="${comment.content}"/></div>
+						</div>
+					</ol>
+					<div th:if="${@mainController.logged}">
+						<form class="comment_form" action="/puzzle/comment">
+							<textarea name="content" min="1" max="255" class="submit_field" required="requred"></textarea>
+							<input type="submit" value="submit" class="submit_button"/>
+						</form>
+					</div>
+				</div>
+	</div>		
 		</div>
 	</body>
 </html>

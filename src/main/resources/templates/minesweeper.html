@@ -27,42 +27,88 @@
 				<h2 class="center game_title">Minesweeper</h2>
 				<p class="right rating_title">Rating for this game: <span th:text="${@minesweeperController.ratings}"/><img src="/css/star_full.svg" class="star"></p>
 			</div>
-			<p>Welcome! Start playing by clicking on tiles.<br> You can also mark tiles by entering the MARKING mode</p>
 		<div class="interaction">
 			<div class="field">
 				<div th:utext="${@minesweeperController.htmlField}"/>
 				<br>
 				<div th:if="${@minesweeperController.playing}">
-					<div th:if="${not @minesweeperController.marking}" class="marking_button">
-					<a href="/minesweeper/mark"><p>Enter MARKING mode</p></a>
+					<div th:if="${not @minesweeperController.marking}">
+					<a href="/minesweeper/mark"><div class="marking_button">Enter MARKING mode</div></a>
 					</div>
 				</div>
-				<div  th:if="${@minesweeperController.marking}" class="marking_button_active">
-					<a href="/minesweeper/mark"><p class="red">You are now MARKING*</p></a>
+				<div  th:if="${@minesweeperController.marking}">
+					<a href="/minesweeper/mark"><div class="marking_button_active">Exit MARKING mode*</div></a>
 				</div>
- 				<h3 th:if="${@minesweeperController.failed}" class="red center ">Game over</h3>
- 				<h3 th:if="${@minesweeperController.solved}" class="center ">You won!</h3>
+ 				<p th:if="${@minesweeperController.failed}" class="red center state">Game over</p>
+ 				<p th:if="${@minesweeperController.solved}" class="center state">You won!</p>
+				
 				<p th:if="${@minesweeperController.marking}" class="small_text">*Click on tiles to mark them or click on marked tiles to "unmark" them</p>
 				<a th:if="${@minesweeperController.marking}" href="/minesweeper">Restart game</a>
+  				<a th:if="${@minesweeperController.marking}" href="/" class="right">Exit game</a>
+ 				
  				<a th:if="${@minesweeperController.playing}" href="/minesweeper">Restart game</a>
- 				<a th:if="${@minesweeperController.failed}" href="/minesweeper">Start new game</a>
- 				<a th:if="${@minesweeperController.solved}" href="/minesweeper">Start new game</a>
-				<a href="/" class="right">Exit game</a>
+ 				<a th:if="${@minesweeperController.playing}" href="/" class="right">Exit game</a>
+ 				<a class="final_button" th:if="${@minesweeperController.failed}" href="/minesweeper">Start new game</a>
+				<a class="final_button right" th:if="${@minesweeperController.failed}" href="/">Exit game</a>
+ 				<a class="final_button" th:if="${@minesweeperController.solved}" href="/minesweeper">Start new game</a>
+				<a class="final_button right" th:if="${@minesweeperController.solved}" href="/">Exit game</a>
 				<br>
 			</div>
 			<div class="scores">
 				<h3>TOP 10 FASTEST SWEEPERS</h3>
 				<p class="center">___________________________</p>
 				<p>&nbsp;No. | &nbsp;Username &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;TIME</p>
-				<ol>
-					<li th:each="score : ${@minesweeperController.scores}" class="scores_line">
-					&nbsp;<span th:text="${score.username}"/>:
-					<span th:text="${score.value}" class="right"/>
-					</li>
-				</ol>
+				<div class="score">
+					<ol>
+						<li th:each="score : ${@minesweeperController.scores}" class="scores_line">
+						&nbsp;<span th:text="${score.username}"/>:
+						<span th:text="${score.value}" class="right"/>
+						</li>
+					</ol>
+				</div>
+			</div>			
+		</div>
+		<div th:if="${@minesweeperController.solved}">
+			<div class="rating" th:if="${@mainController.logged}">
+					<span class="rate_title">RATE THIS GAME:</span>							
+					<form class="stars" action="/minesweeper/rating">
+						<div class="stars_center">
+							<input class="star star-5" id="star-5" type="radio" value="5" name="rate"/>
+	   							<label class="star star-5" for="star-5"></label>
+							<input class="star star-4" id="star-4" type="radio" value="4" name="rate"/>
+	   							<label class="star star-4" for="star-4"></label>
+	  						<input class="star star-3" id="star-3" type="radio" value="3" name="rate"/>
+								<label class="star star-3" for="star-3"></label>
+  							<input class="star star-2" id="star-2" type="radio" value="2" name="rate"/>
+	   							<label class="star star-2" for="star-2"></label>
+	   						<input class="star star-1" id="star-1" type="radio" value="1" name="rate"/>
+	    						<label class="star star-1" for="star-1"></label>
+	   					</div>
+	  					<input type="submit" value="submit" class="rate_button"/>
+					</form>
 			</div>
 		</div>
-		<div class="guess_comments" id="data">
+		<div th:if="${@minesweeperController.failed}">
+			<div class="rating" th:if="${@mainController.logged}">
+					<span class="rate_title">RATE THIS GAME:</span>							
+					<form class="stars" action="/minesweeper/rating">
+						<div class="stars_center">
+							<input class="star star-5" id="star-5" type="radio" value="5" name="rate"/>
+	   							<label class="star star-5" for="star-5"></label>
+							<input class="star star-4" id="star-4" type="radio" value="4" name="rate"/>
+	   							<label class="star star-4" for="star-4"></label>
+	  						<input class="star star-3" id="star-3" type="radio" value="3" name="rate"/>
+								<label class="star star-3" for="star-3"></label>
+  							<input class="star star-2" id="star-2" type="radio" value="2" name="rate"/>
+	   							<label class="star star-2" for="star-2"></label>
+	   						<input class="star star-1" id="star-1" type="radio" value="1" name="rate"/>
+	    						<label class="star star-1" for="star-1"></label>
+	   					</div>
+	  					<input type="submit" value="submit" class="rate_button"/>
+					</form>
+			</div>
+		</div>
+		<div class="guess_comments">
 			<p>COMMENT SECTION</p>
 			<ol th:each="comment : ${@minesweeperController.comments}">
 					<div class="comment">
