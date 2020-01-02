@@ -553,6 +553,17 @@ td:hover {
 .puzzle_tile:hover {
 	transform: scale(0.90, 0.90);	
 }
+.guess_scores {
+	background: #323232;
+	padding: 15px;
+}
+.scores_x {
+	margin: 0 auto;
+	padding: 0 15px 15px 15px;
+	width: 260px;
+	height: min-content;
+	color: #b7b7b7;
+}
 
 .solved {
 	font-size:60px;
@@ -747,5 +758,8 @@ td:hover {
 	}
 	.title {
 		margin-top: 45px;
+	}
+	.guess_scores {
+		width: 90%;
 	}
 }

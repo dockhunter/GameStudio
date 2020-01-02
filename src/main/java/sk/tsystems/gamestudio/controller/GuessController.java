@@ -29,6 +29,7 @@ public class GuessController {
 	List<String> commentary = new ArrayList<>();
 	
 	int solved;
+	int score;
 
 	@Autowired
 	private ScoreService scoreService;
@@ -52,6 +53,7 @@ public class GuessController {
 		number.generateNumber(lowerLimit, upperLimit);
 		answer = null;
 		solved = 0;
+		score = 0;
 		commentary.clear();
 		return "guessnumber";
 	}
@@ -111,6 +113,7 @@ public class GuessController {
 			if (answer == number.getNumber()) {
 				f.format("<br><br><span class='t' id='data'>AI: Yes! You are correct! My number was </span>" + number.getNumber() + "<br><br>");
 				solved = 1;
+				scoreService.addScore(new Score(mainContoller.getLoggedPlayer().getName(), "guessnumber", score));
 			} else if (answer == number.getNumber() + 1 || answer == number.getNumber() - 1) {
 				f.format("<p class='ai t'>AI: You are really close! Try again.</p>");
 				commentary.add("<p class='ai'>AI: You are really close! Try again.</p>");
@@ -148,6 +151,7 @@ public class GuessController {
 			}
 		} catch (Exception ex) {
 		}
+		score++;
 		answer = null;
 		return f.toString();
 	}
@@ -169,7 +173,11 @@ public class GuessController {
 	public List<String> getCommentary() {
 		return commentary;
 	}
-
+	
+	public List<Score> getScores() {
+		return scoreService.getTopScore("guessnumber");
+	}
+	
 	public List<Comment> getComments() {
 		return scoreService.getComment("guessnumber");
 	}

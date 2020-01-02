@@ -280,9 +280,9 @@ public class Field {
      * 
      */
     public int getPlayingSeconds() {
-    	int startSeconds = (int) (startMillis / 1000) % 60 ;
-    	int endSeconds = (int) (endMillis / 1000) % 60 ;
-       	return endSeconds - startSeconds;
+    	int startSeconds = (int) (startMillis / 1000 % 60);
+    	int endSeconds = (int) (endMillis / 1000 % 60);
+       	return endSeconds + startSeconds;
         
     }
 

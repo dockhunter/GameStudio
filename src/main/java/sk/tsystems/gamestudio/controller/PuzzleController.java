@@ -25,6 +25,8 @@ public class PuzzleController {
 
 	SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 	Date date = new Date();
+	
+	int x;
 
 	private Field field;
 
@@ -40,12 +42,14 @@ public class PuzzleController {
 	@RequestMapping
 	public String index() {
 		field = new Field(4, 4);
+		x= 0;
 		return "puzzle";
 	}
 
 	@RequestMapping("/move")
 	public String move(int tile) {
 		field.moveTile(tile);
+		field.setScore(++x);
 		if (field.isSolved() && mainContoller.isLogged()) {
 			scoreService.addScore(new Score(mainContoller.getLoggedPlayer().getName(), "puzzle", field.getScore()));
 		}
