@@ -85,7 +85,7 @@ h3 {
 }
 
 /* HEADER */
-.header {
+nav {
 	background: black;
 	margin: -10px -10px;
 	padding: 10px 1px;
@@ -388,7 +388,7 @@ td {
 	width: 25px;
 	height: 25px;
 	background-color: #2b2b2b;
-	border: 1px solid #222222;
+	border: 1px solid rgb(95, 95, 95);
 	padding: 2px;
 }
 
@@ -575,7 +575,7 @@ td:hover {
 	background: #00000063;
 }
 
-/* RESPUNSIVENESS */
+/* RESPONSIVENESS */
 @media (max-width: 1024px) and (min-width: 0px) {
 	.hide {
 		display: none;
@@ -718,10 +718,7 @@ td:hover {
 	.puzzle_scores {
 		margin: 25px auto 0 auto; 
 	}
-	.puzzle_tile {
-		width: 60px;
-		margin-bottom: -5px;
-	}	
+
 	
 }
 

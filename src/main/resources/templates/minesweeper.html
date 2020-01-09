@@ -7,20 +7,7 @@
 	<!-- <div th:text="${@minesweeperController.message}"/> -->
 </head>
 <body>
-	<div class="header">
-			<div class="logo"><span><p><a href="/">GameStudio:</a>&nbsp;&nbsp;<a href="/puzzle">Puzzle</a>
-			 / <a class="link">Minesweeper</a> / <a href="/guessnumber">Guess The Number</a></p></span></div>
-		<div th:if="${@mainController.logged}" class="account right"><span>
-			<p>You are logged in as 
-			<span class="red" th:text="${@mainController.loggedPlayer.name}"/> | 
-			<a href="/logout" class="link">Log out</a></span></p>
-		</div>
-		<div  th:if="${not @mainController.logged}" class="account right"><span>
-			<p>You are not logged. Please 
-			<a href="/" class="link">log in</a> | 
-			<a href="/register" class="link">register</a></span></p>
-		</div>
-	</div>
+	<nav th:insert="fragments :: header('minesweeper')"/>
 	<div class="container">	
 		<div class="mine">
 			<div class="title">
@@ -108,24 +95,8 @@
 					</form>
 			</div>
 		</div>
-		<div class="guess_comments">
-			<p>COMMENT SECTION</p>
-			<ol th:each="comment : ${@minesweeperController.comments}">
-					<div class="comment">
-						<div class="users">
-							<span class="username" th:text="${comment.username}"/><br>
-								<span class="date" th:text="${comment.date}"/>
-							</div>
-							<div class="content"><span th:text="${comment.content}"/></div>
-						</div>
-					</ol>
-					<div th:if="${@mainController.logged}">
-						<form class="comment_form" action="/minesweeper/comment">
-							<textarea name="content" min="1" max="255" class="submit_field" required="requred"></textarea>
-							<input type="submit" value="submit" class="submit_button"/>
-						</form>
-					</div>
-				</div>
+		<div th:insert="fragments :: comment('minesweeper')"/>
+		</div>	
 		</div>	
 	</div>
 </body>

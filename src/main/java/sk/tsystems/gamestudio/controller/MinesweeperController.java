@@ -119,19 +119,19 @@ public class MinesweeperController {
 				} else if (field.getState().equals(GameState.MARKING)) {
 					if (tile.getState() == Tile.State.CLOSED)
 						f.format(
-								"<a id'm' href='/minesweeper/markTile?row=%d&column=%d'><img src='/images/tile.jpg' class='img tile'></a>",
+								"<a href='/minesweeper/markTile?row=%d&column=%d'><img src='/images/tile.jpg' class='img tile'></a>",
 								row, column);
 					else if (tile.getState() == Tile.State.MARKED)
 						f.format(
-								"<a id'm' href='/minesweeper/markTile?row=%d&column=%d'><img src='/images/marked.jpg' class='img'></a>",
+								"<a href='/minesweeper/markTile?row=%d&column=%d'><img src='/images/marked.jpg' class='img'></a>",
 								row, column);
 					else if (tile instanceof Mine && tile.getState() == Tile.State.OPEN) {
-						f.format("<img src='/images/bomb.jpg' id'm' class='img'>");
+						f.format("<img src='/images/bomb.jpg' class='img'>");
 						field.setState(GameState.FAILED);
 					} else if (tile instanceof Clue && tile.getState() == Tile.State.OPEN) {
 						Clue clue = (Clue) tile;
 						int value = clue.getValue();
-						f.format("<img src='/images/%d.png' id'm' class='img'>", value);
+						f.format("<img src='/images/%d.png' class='img'>", value);
 					}
 				} else {
 					if (tile.getState() == Tile.State.CLOSED && !(tile instanceof Mine))
@@ -179,14 +179,14 @@ public class MinesweeperController {
 
 		return true;
 	}
-	
+
 	public boolean isMarking() {
 		if (!(field.getState().equals(GameState.MARKING)))
 			return false;
 
 		return true;
 	}
-	
+
 	public List<Score> getScores() {
 		return scoreService.getTopScore("minesweeper");
 	}
@@ -198,6 +198,78 @@ public class MinesweeperController {
 	public double getRatings() {
 		return ratingService.getAverageRating("minesweeper");
 	}
+
+	
+//	private Field field;
+//
+//	private boolean marking;
+//
+//	@RequestMapping
+//	public String index() {
+//		field = new Field(9, 9, 10);
+//		return "mines";
+//	}
+//
+//	@RequestMapping("/action")
+//	public String action(int row, int column) {
+//		if (field.getState() == GameState.PLAYING)
+//			if (marking)
+//				field.markTile(row, column);
+//			else
+//				field.openTile(row, column);
+//		return "mines";
+//	}
+//
+//	@RequestMapping("/change")
+//	public String change() {
+//		marking = !marking;
+//		return "mines";
+//	}
+//
+//	public String getHtmlField() {
+//		Formatter f = new Formatter();
+//
+//		f.format("<table>\n");
+//		for (int row = 0; row < field.getRowCount(); row++) {
+//			f.format("<tr>\n");
+//			for (int column = 0; column < field.getColumnCount(); column++) {
+//				f.format("<td>");
+//				Tile tile = field.getTile(row, column);
+//				f.format("<a href='/mines/action?row=%d&column=%d'>", row, column);
+//				f.format("<img src='/images/mines/%s.png'></a>", getImageName(tile));
+//				f.format("</a>");
+//				f.format("</td>\n");
+//			}
+//			f.format("</tr>\n");
+//		}
+//
+//		f.format("</table>\n");
+//
+//		return f.toString();
+//	}
+//
+//	private String getImageName(Tile tile) {
+//		switch (tile.getState()) {
+//		case CLOSED:
+//			return "closed";
+//		case MARKED:
+//			return "marked";
+//		case OPENED:
+//			if (tile instanceof Clue)
+//				return "open" + ((Clue) tile).getValue();
+//			else
+//				return "mine";
+//		default:
+//			throw new IllegalArgumentException();
+//		}
+//	}
+//
+//	public boolean isMarking() {
+//		return marking;
+//	}
+//}
+
+	
 //	public String getHighScores() {
 //		Formatter f = new Formatter();
 //		ScoreService scoreService = new ScoreServicesJDBC();
