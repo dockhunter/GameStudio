@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/css/style.css">  
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+	<nav th:fragment="header(game)">
+			<div class="logo">
+					<p>
+						<a href="/">GameStudio:</a>&nbsp;&nbsp;
+						<span th:if="${game} == puzzle"><a class='link'>Puzzle</a> /</span> 
+						<span th:unless="${game} == puzzle"><a href='/puzzle'>Puzzle</a> /</span>
+						<span th:if="${game} == minesweeper"><a class='link'>Minesweeper</a> /</span> 
+						<span th:unless="${game} == minesweeper"><a href='/minesweeper'>Minesweeper</a> /</span>
+						<span th:if="${game} == guessnumber"><a class='link'>Guess The Number</a> /</span> 
+						<span th:unless="${game} == guessnumber"><a href='/guessnumber'>Guess The Number</a> /</span>
+					</p>
+			</div>
+		<div th:if="${@mainController.logged}" class="account right"><span>
+			<p>You are logged in as 
+			<span class="red" th:text="${@mainController.loggedPlayer.name}"/> | 
+			<a href="/logout" class="link">Log out</a></span></p>
+		</div>
+		<div  th:if="${not @mainController.logged}" class="account right"><span>
+			<p>You are not logged. Please 
+			<a href="/" class="link">log in</a> | 
+			<a href="/register" class="link">register</a></span></p>
+		</div>
+	</nav>
+	<div th:fragment="comment(game)" class="guess_comments">
+		<p>COMMENT SECTION</p>
+		<div th:if="${game} == puzzle">
+		<ol th:each="comment : ${@puzzleController.comments}">
+			<div class="comment">
+				<div class="users">
+						<span class="username" th:text="${comment.username}"/><br>
+						<span class="date" th:text="${comment.date}"/>
+				</div>
+				<div class="content"><span th:text="${comment.content}"/></div>
+			</div>
+		</ol>
+		</div>
+		
+		<div th:if="${game} == minesweeper">
+		<ol th:each="comment : ${@minesweeperController.comments}">
+			<div class="comment">
+				<div class="users">
+						<span class="username" th:text="${comment.username}"/><br>
+						<span class="date" th:text="${comment.date}"/>
+				</div>
+				<div class="content"><span th:text="${comment.content}"/></div>
+			</div>
+		</ol>
+		</div>
+		
+		<div th:if="${game} == guessnumber">
+		<ol th:each="comment : ${@guessnumberController.comments}">
+			<div class="comment">
+				<div class="users">
+						<span class="username" th:text="${comment.username}"/><br>
+						<span class="date" th:text="${comment.date}"/>
+				</div>
+				<div class="content"><span th:text="${comment.content}"/></div>
+			</div>
+		</ol>
+		</div>
+		
+		<div th:if="${game} == guessnumber">
+			<div th:if="${@mainController.logged}">
+				<form class="comment_form" action="/puzzle/comment">
+					<textarea name="content" min="1" max="255" class="submit_field" required="requred"></textarea>
+					<input type="submit" value="submit" class="submit_button"/>
+				</form>
+			</div>
+		</div>
+		
+		<div th:if="${game} == minesweeper">
+			<div th:if="${@mainController.logged}">
+				<form class="comment_form" action="/minesweeper/comment">
+					<textarea name="content" min="1" max="255" class="submit_field" required="requred"></textarea>
+					<input type="submit" value="submit" class="submit_button"/>
+				</form>
+			</div>
+		</div>
+		
+		<div th:if="${game} == guessnumber">
+			<div th:if="${@mainController.logged}">
+				<form class="comment_form" action="/guessnumber/comment">
+					<textarea name="content" min="1" max="255" class="submit_field" required="requred"></textarea>
+					<input type="submit" value="submit" class="submit_button"/>
+				</form>
+			</div>
+		</div>
+		
+	</div>
+</body>
