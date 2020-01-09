@@ -29,7 +29,6 @@ function toggle() {
 					<p class="right rating_title">Rating for this game: <span th:text="${@guessController.ratings}"/><img src="/css/star_full.svg" class="star"></p>
 				</div>
 				<div class="conversation">	
-<!--  					<span th:text="${@guessController.answer} ? '': ${@guessController.message}"></span> -->
 					<div th:if="${not @mainController.logged}">
 						<p class="ai">AI: Welcome stranger, guess what number I am thinking between 1 and 10.</p>
 					</div>
@@ -87,7 +86,6 @@ function toggle() {
 						</div>
 					</div>
 					</div>			
-<!--  					<div th:text="${@guessController.clear}"/> -->
 			<div id="xx" th:insert="fragments :: comment('puzzle')"/>
 			</div>	
 				</div>
